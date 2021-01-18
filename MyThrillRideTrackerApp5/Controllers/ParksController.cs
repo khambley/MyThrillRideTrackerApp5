@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using MyThrillRideTrackerApp5.Models;
+using MyThrillRideTrackerApp5.Processors;
 
 namespace MyThrillRideTrackerApp5.Controllers
 {
     public class ParksController : Controller
     {
         private readonly ThrillRideTrackerDbContext _context;
-
+        
         public ParksController(ThrillRideTrackerDbContext context)
         {
             _context = context;
@@ -21,7 +25,8 @@ namespace MyThrillRideTrackerApp5.Controllers
         // GET: Parks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Parks.ToListAsync());
+            IEnumerable<Park> parksList = await _context.Parks.Include(p => p.ImageFiles).ToListAsync();
+            return View(parksList);
         }
 
         // GET: Parks/Details/5
@@ -53,12 +58,28 @@ namespace MyThrillRideTrackerApp5.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ParkId,Name,Description,City,State,WebsiteLink,ParkMapLink")] Park park)
+        public async Task<IActionResult> Create([Bind("ParkId,Name,Description,City,State,WebsiteLink,ParkMapLink")] Park park, List<IFormFile> files)
         {
             if (ModelState.IsValid)
             {
+                // 1. Save the park model first, creates a unique id for the inserted park.
                 _context.Add(park);
                 await _context.SaveChangesAsync();
+
+                // 2. Save the ImageFiles in Images folder and get new Filenames.
+                var newFileNames = ImageProcessor.SaveImageFilesToDrive(files);
+
+                // 3. Save FileName and path in db.
+                foreach (var newfileName in newFileNames)
+				{
+                    var imageFileName = new ImageFileName()
+                    {
+                        FileName = newfileName,
+                        ParkId = park.ParkId
+                    };
+                    _context.ImageFileNames.Add(imageFileName);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(park);

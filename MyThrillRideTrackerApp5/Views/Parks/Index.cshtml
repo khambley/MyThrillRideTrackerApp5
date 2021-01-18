@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MyThrillRideTrackerApp5.Models.Park>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Parks";
 }
 
-<h1>Index</h1>
+<h1>Parks List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -12,6 +12,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                Image
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -36,6 +39,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @if (item.ImageFiles.Count > 0)
+                {
+                    <img style="width: 50px;" src="~/images/@item.ImageFiles[0].FileName" />
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
