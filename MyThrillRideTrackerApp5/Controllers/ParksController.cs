@@ -60,6 +60,7 @@ namespace MyThrillRideTrackerApp5.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ParkId,Name,Description,City,State,WebsiteLink,ParkMapLink")] Park park, List<IFormFile> files)
         {
+            //This is a comment
             if (ModelState.IsValid)
             {
                 // 1. Save the park model first, creates a unique id for the inserted park.
