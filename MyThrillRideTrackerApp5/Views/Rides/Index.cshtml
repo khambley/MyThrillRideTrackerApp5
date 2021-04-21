@@ -1,0 +1,138 @@
+﻿@model IEnumerable<MyThrillRideTrackerApp5.Models.Ride>
+
+@{
+    ViewData["Title"] = "Rides List";
+}
+
+<h1>Rides List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-2 col-sm-6 col-xs-6">
+
+            <div class="card" @*style="width: 10rem;"*@>
+                @if (@item.ImageFiles.Count > 0)
+                {
+                    <img src="~/images/@item.ImageFiles[0].FileName" style="width: 100%;" />
+                }
+                else
+                {
+                    <img style="width: 100%" src="https://via.placeholder.com/150X150?text=No+Image" />
+                }
+                <ul class="list-group list-group-flush text-small">
+                    <li class="list-group-item">@Html.DisplayFor(modelItem => item.Park.Name)</li>
+                    <li class="list-group-item">Height: @Html.DisplayFor(modelItem => item.Height) ft</li>
+                    <li class="list-group-item">Length: @Html.DisplayFor(modelItem => item.Length)</li>
+                    <li class="list-group-item">Top Speed: @Html.DisplayFor(modelItem => item.TopSpeed) mph</li>
+                    <li class="list-group-item">Type: @Html.DisplayFor(modelItem => item.RideType)</li>
+
+                </ul>
+                <div class="card-body">
+                    <a asp-action="Edit" asp-route-id="@item.RideId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.RideId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.RideId">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@*<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Length)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TopSpeed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GForce)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RideType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThrillType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaterialType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WebsiteLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuildDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Park)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopSpeed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GForce)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RideType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThrillType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaterialType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WebsiteLink)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Park.ParkId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RideId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RideId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RideId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@

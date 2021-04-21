@@ -33,15 +33,15 @@ namespace MyThrillRideTrackerApp5.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: false),
-                    Length = table.Column<int>(type: "int", nullable: false),
-                    TopSpeed = table.Column<int>(type: "int", nullable: false),
-                    GForce = table.Column<int>(type: "int", nullable: false),
+                    Height = table.Column<int>(type: "int", nullable: true),
+                    Length = table.Column<int>(type: "int", nullable: true),
+                    TopSpeed = table.Column<int>(type: "int", nullable: true),
+                    GForce = table.Column<int>(type: "int", nullable: true),
                     RideType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThrillType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MaterialType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WebsiteLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BuildDate = table.Column<DateTime>(type: "date", nullable: false),
+                    BuildDate = table.Column<DateTime>(type: "date", nullable: true),
                     Manufacturer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParkId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -53,7 +53,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                         column: x => x.ParkId,
                         principalTable: "Parks",
                         principalColumn: "ParkId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +75,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                         column: x => x.ParkId,
                         principalTable: "Parks",
                         principalColumn: "ParkId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

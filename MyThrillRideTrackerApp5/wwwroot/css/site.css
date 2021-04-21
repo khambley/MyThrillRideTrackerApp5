@@ -23,7 +23,29 @@ a {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+/* Bootstrap Overrides
+-------------------------------------------------- */
+body {
+    line-height: 1.2;
+}
 
+.list-group-item {
+    padding: .2rem .7rem !important;
+}
+
+.card {
+    min-height: 310px;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    padding: .2rem .7rem;
+    font-size: small;
+}
+
+.text-small {
+    font-size: small;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

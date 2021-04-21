@@ -14,30 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label class="control-label">Upload Image:</label>
-                <div class="control-label">
-                    <span id="list"></span>
-                    @*<img id="user_img0" width="100" />
-                    <img id="user_img1" width="100" />*@
-                </div>
-                <input id="images" type="file" asp-for="ImageFiles" name="files" multiple class="form-control no-border no-padding-left" onchange="showAndPreviewImages()" />
-                <script type="text/javascript">
-                    function showAndPreviewImages() {
-                        var files = document.getElementById("images").files;
-                        for (var i = 0; i < files.length; i++) {
-                            let file = files[i];
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                var span = document.createElement('span');
-                                span.innerHTML = ['<img src="', e.target.result,
-                                    '" width="100"', escape(file.name), '">&nbsp;&nbsp;'
-                                ].join('');
-                                document.getElementById('list').insertBefore(span, null);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    }
-                </script>
+                @await Html.PartialAsync("_UploadImage")
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>

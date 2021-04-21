@@ -10,23 +10,23 @@ using MyThrillRideTrackerApp5.Models;
 namespace MyThrillRideTrackerApp5.Migrations
 {
     [DbContext(typeof(ThrillRideTrackerDbContext))]
-    [Migration("20210113203815_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210421123529_AddNotesToRideModel")]
+    partial class AddNotesToRideModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("MyThrillRideTrackerApp5.Models.ImageFileName", b =>
                 {
                     b.Property<int>("ImageFileNameId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
@@ -61,7 +61,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<int>("ParkId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -91,21 +91,21 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<int>("RideId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("BuildDate")
+                    b.Property<DateTime?>("BuildDate")
                         .HasColumnType("date");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GForce")
+                    b.Property<int?>("GForce")
                         .HasColumnType("int");
 
-                    b.Property<int>("Height")
+                    b.Property<int?>("Height")
                         .HasColumnType("int");
 
-                    b.Property<int>("Length")
+                    b.Property<int?>("Length")
                         .HasColumnType("int");
 
                     b.Property<string>("Manufacturer")
@@ -117,6 +117,9 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ParkId")
                         .HasColumnType("int");
 
@@ -126,7 +129,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<string>("ThrillType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TopSpeed")
+                    b.Property<int?>("TopSpeed")
                         .HasColumnType("int");
 
                     b.Property<string>("WebsiteLink")
@@ -144,7 +147,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<int>("VisitId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ParkId")
                         .HasColumnType("int");
@@ -170,7 +173,7 @@ namespace MyThrillRideTrackerApp5.Migrations
                     b.Property<int>("VisitRideId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("RideId")
                         .HasColumnType("int");

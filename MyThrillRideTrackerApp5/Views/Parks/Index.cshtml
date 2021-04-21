@@ -14,7 +14,14 @@
     {
         <div class="col-md-3">
             <div class="card">
-                <img src="~/images/@item.ImageFiles[0].FileName" style="width: 100%;" />
+                @if(@item.ImageFiles.Count > 0)
+                {
+                    <img src="~/images/@item.ImageFiles[0].FileName" style="width: 100%;" />
+                } else
+                {
+                    <img style = "width: 100%" src = "https://via.placeholder.com/150X150?text=No+Image" />
+                }
+
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem => item.City), @Html.DisplayFor(modelItem => item.State)</p>
