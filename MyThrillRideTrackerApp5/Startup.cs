@@ -37,6 +37,7 @@ namespace MyThrillRideTrackerApp5
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
+				
 			}
 			else
 			{
@@ -49,6 +50,7 @@ namespace MyThrillRideTrackerApp5
 
 			app.UseRouting();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
@@ -56,6 +58,7 @@ namespace MyThrillRideTrackerApp5
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
+				endpoints.MapRazorPages();
 			});
 		}
 	}

@@ -13,7 +13,9 @@ namespace MyThrillRideTrackerApp5.Models
         public int ParkId { get; set; }
         public Park Park { get; set; }
 
-        public List<VisitRide> VisitRides { get; set; }
+		public string UserId { get; set; }
+
+		public List<VisitRide> VisitRides { get; set; }
 
         public int VisitRating { get; set; }
         public string VisitComments { get; set; }
