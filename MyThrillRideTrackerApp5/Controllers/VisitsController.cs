@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyThrillRideTrackerApp5.Models;
-using MyThrillRideTrackerApp5.Processors;
 
 namespace MyThrillRideTrackerApp5.Controllers
 {
-    public class RidesController : Controller
+    public class VisitsController : Controller
     {
         private readonly ThrillRideTrackerDbContext _context;
 
-        public RidesController(ThrillRideTrackerDbContext context)
+        public VisitsController(ThrillRideTrackerDbContext context)
         {
             _context = context;
         }
 
-        // GET: Rides
+        // GET: Visits
         public async Task<IActionResult> Index()
         {
-            var thrillRideTrackerDbContext = _context.Rides
-                .Include(r => r.Park)
-                .Include(p => p.ImageFiles);
+            var thrillRideTrackerDbContext = _context.Visits
+                .Include(v => v.Park)
+                .OrderByDescending(v => v.VisitDate);
             return View(await thrillRideTrackerDbContext.ToListAsync());
         }
 
-        // GET: Rides/Details/5
+        // GET: Visits/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,58 +37,45 @@ namespace MyThrillRideTrackerApp5.Controllers
                 return NotFound();
             }
 
-            var ride = await _context.Rides
-                .Include(r => r.Park)
-                .FirstOrDefaultAsync(m => m.RideId == id);
-            if (ride == null)
+            var visit = await _context.Visits
+                .Include(v => v.Park)
+                .FirstOrDefaultAsync(m => m.VisitId == id);
+            if (visit == null)
             {
                 return NotFound();
             }
 
-            return View(ride);
+            return View(visit);
         }
 
-        // GET: Rides/Create
+        // GET: Visits/Create
+        [Authorize]
         public IActionResult Create()
         {
+            
             ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "Name");
             return View();
         }
 
-        // POST: Rides/Create
+        // POST: Visits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RideId,Name,Description,Height,Length,TopSpeed,GForce,RideType,ThrillType,MaterialType,WebsiteLink,BuildDate,Manufacturer,ParkId")] Ride ride, List<IFormFile> files)
+        public async Task<IActionResult> Create([Bind("VisitId,ParkId,VisitDate,VisitRating,VisitComments")] Visit visit)
         {
             if (ModelState.IsValid)
             {
-                // 1. Save the ride model first, creates a unique id for the inserted park.
-                _context.Add(ride);
+                visit.UserId = GetUserId();
+                _context.Add(visit);
                 await _context.SaveChangesAsync();
-
-                // 2. Save the ImageFiles in Images folder and get new Filenames.
-                var newFileNames = ImageProcessor.SaveImageFilesToDrive(files);
-
-                // 3. Save FileName and path in db.
-                foreach (var newfileName in newFileNames)
-                {
-                    var imageFileName = new ImageFileName()
-                    {
-                        FileName = newfileName,
-                        RideId = ride.RideId
-                    };
-                    _context.ImageFileNames.Add(imageFileName);
-                    await _context.SaveChangesAsync();
-                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "ParkId", ride.ParkId);
-            return View(ride);
+            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "ParkId", visit.ParkId);
+            return View(visit);
         }
 
-        // GET: Rides/Edit/5
+        // GET: Visits/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,23 +83,23 @@ namespace MyThrillRideTrackerApp5.Controllers
                 return NotFound();
             }
 
-            var ride = await _context.Rides.FindAsync(id);
-            if (ride == null)
+            var visit = await _context.Visits.FindAsync(id);
+            if (visit == null)
             {
                 return NotFound();
             }
-            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "ParkId", ride.ParkId);
-            return View(ride);
+            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "Name", visit.ParkId);
+            return View(visit);
         }
 
-        // POST: Rides/Edit/5
+        // POST: Visits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RideId,Name,Description,Height,Length,TopSpeed,GForce,RideType,ThrillType,MaterialType,WebsiteLink,BuildDate,Manufacturer,ParkId")] Ride ride)
+        public async Task<IActionResult> Edit(int id, [Bind("VisitId,ParkId,VisitDate,VisitRating,VisitComments")] Visit visit)
         {
-            if (id != ride.RideId)
+            if (id != visit.VisitId)
             {
                 return NotFound();
             }
@@ -121,12 +108,12 @@ namespace MyThrillRideTrackerApp5.Controllers
             {
                 try
                 {
-                    _context.Update(ride);
+                    _context.Update(visit);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RideExists(ride.RideId))
+                    if (!VisitExists(visit.VisitId))
                     {
                         return NotFound();
                     }
@@ -137,11 +124,11 @@ namespace MyThrillRideTrackerApp5.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "ParkId", ride.ParkId);
-            return View(ride);
+            ViewData["ParkId"] = new SelectList(_context.Parks, "ParkId", "ParkId", visit.ParkId);
+            return View(visit);
         }
 
-        // GET: Rides/Delete/5
+        // GET: Visits/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,31 +136,36 @@ namespace MyThrillRideTrackerApp5.Controllers
                 return NotFound();
             }
 
-            var ride = await _context.Rides
-                .Include(r => r.Park)
-                .FirstOrDefaultAsync(m => m.RideId == id);
-            if (ride == null)
+            var visit = await _context.Visits
+                .Include(v => v.Park)
+                .FirstOrDefaultAsync(m => m.VisitId == id);
+            if (visit == null)
             {
                 return NotFound();
             }
 
-            return View(ride);
+            return View(visit);
         }
 
-        // POST: Rides/Delete/5
+        // POST: Visits/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ride = await _context.Rides.FindAsync(id);
-            _context.Rides.Remove(ride);
+            var visit = await _context.Visits.FindAsync(id);
+            _context.Visits.Remove(visit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RideExists(int id)
+        private bool VisitExists(int id)
         {
-            return _context.Rides.Any(e => e.RideId == id);
+            return _context.Visits.Any(e => e.VisitId == id);
         }
+        public string GetUserId()
+		{
+            var userId = HttpContext.User.Claims.First().Value;
+            return userId;
+		}
     }
 }

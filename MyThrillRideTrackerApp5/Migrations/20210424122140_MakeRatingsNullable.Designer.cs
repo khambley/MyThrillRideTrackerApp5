@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyThrillRideTrackerApp5.Models;
 
 namespace MyThrillRideTrackerApp5.Migrations
 {
     [DbContext(typeof(ThrillRideTrackerDbContext))]
-    partial class ThrillRideTrackerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210424122140_MakeRatingsNullable")]
+    partial class MakeRatingsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

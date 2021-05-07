@@ -1,0 +1,50 @@
+﻿@model MyThrillRideTrackerApp5.Models.VisitRide
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>VisitRide</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VisitRideId" />
+            <div class="form-group">
+                <label asp-for="VisitId" class="control-label"></label>
+                <select asp-for="VisitId" class="form-control" asp-items="ViewBag.VisitId"></select>
+                <span asp-validation-for="VisitId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RideId" class="control-label"></label>
+                <select asp-for="RideId" class="form-control" asp-items="ViewBag.RideId"></select>
+                <span asp-validation-for="RideId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitRideRating" class="control-label"></label>
+                <input asp-for="VisitRideRating" class="form-control" />
+                <span asp-validation-for="VisitRideRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitRideComments" class="control-label"></label>
+                <input asp-for="VisitRideComments" class="form-control" />
+                <span asp-validation-for="VisitRideComments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

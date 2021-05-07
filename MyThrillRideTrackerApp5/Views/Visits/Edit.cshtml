@@ -1,0 +1,57 @@
+﻿@model MyThrillRideTrackerApp5.Models.Visit
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Rate your Park Visit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VisitId" />
+            <div class="form-group">
+                <label asp-for="ParkId" class="control-label">Park</label>
+                <select asp-for="ParkId" class="form-control" asp-items="ViewBag.ParkId"></select>
+                <span asp-validation-for="ParkId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitDate" class="control-label"></label>
+                <input asp-for="VisitDate" class="form-control" />
+                <span asp-validation-for="VisitDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitRating" class="control-label">How would you rate your park visit?</label>
+                <br /><span class="text-small"><i>*From 1 - 10, 1 being the lowest to 10 being the highest</i></span><br />
+                @*<input asp-for="VisitRating" class="form-control" />*@
+                <select asp-for="VisitRating" class="form-control">
+                    <option value="">Select a rating...</option>
+                    @for (int i = 1; i < 11; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+                <span asp-validation-for="VisitRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitComments" class="control-label"></label>
+                <br /><span class="text-small"><i>*How was the weather? Were the lines long? etc.</i></span><br />
+                <textarea asp-for="VisitComments" class="form-control"></textarea>
+                <span asp-validation-for="VisitComments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

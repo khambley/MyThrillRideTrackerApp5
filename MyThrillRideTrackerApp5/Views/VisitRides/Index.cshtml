@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MyThrillRideTrackerApp5.Models.VisitRide>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Visit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ride)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitRideRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitRideComments)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Visit.VisitId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ride.RideId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitRideRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitRideComments)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VisitRideId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VisitRideId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VisitRideId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -24,7 +24,8 @@
                     <img style="width: 100%" src="https://via.placeholder.com/150X150?text=No+Image" />
                 }
                 <ul class="list-group list-group-flush text-small">
-                    <li class="list-group-item">@Html.DisplayFor(modelItem => item.Park.Name)</li>
+                    <li class="list-group-item">Name: @Html.DisplayFor(modelItem => item.Name)</li>
+                    <li class="list-group-item">Park: @Html.DisplayFor(modelItem => item.Park.Name)</li>
                     <li class="list-group-item">Height: @Html.DisplayFor(modelItem => item.Height) ft</li>
                     <li class="list-group-item">Length: @Html.DisplayFor(modelItem => item.Length)</li>
                     <li class="list-group-item">Top Speed: @Html.DisplayFor(modelItem => item.TopSpeed) mph</li>

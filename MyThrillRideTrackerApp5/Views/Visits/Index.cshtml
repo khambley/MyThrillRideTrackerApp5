@@ -1,0 +1,76 @@
+﻿@model IEnumerable<MyThrillRideTrackerApp5.Models.Visit>
+
+@{
+    ViewData["Title"] = "Visits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Park Visits</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12">
+        @foreach (var item in Model)
+        {
+            <div class="media border rounded-sm">
+                @*<img src="..." class="mr-3" alt="...">*@
+                <img @*style="width: 100%"*@ class="mr-3" src="https://via.placeholder.com/100X100?text=No+Image" />
+                <div class="media-body">
+                    <h5 class="mt-0">@Html.DisplayFor(modelItem => item.Park.Name)</h5>
+                    Visit Date: @Html.DisplayFor(modelItem => item.VisitDate)<br />
+                    Visit Rating: @Html.DisplayFor(modelItem => item.VisitRating)<br />
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.VisitId">Rate Your Visit</a>
+                    <a asp-action="Details" class="btn btn-info" asp-route-id="@item.VisitId">Visit Details</a>
+                    @*<a asp-action="Delete" class="btn btn-dark" asp-route-id="@item.VisitId">Delete Your Visit</a>*@
+                </div>
+
+            </div>
+        }
+    </div> 
+</div>
+
+    @*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Park)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VisitDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VisitRating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VisitComments)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Park.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VisitDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VisitRating)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VisitComments)
+                    </td>
+                    <td class="text-small">
+                        <a asp-action="Edit" asp-route-id="@item.VisitId">Rate Your Visit</a> |
+                        <a asp-action="Details" asp-route-id="@item.VisitId">Visit Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.VisitId">Delete Your Visit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
